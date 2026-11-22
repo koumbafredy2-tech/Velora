@@ -4158,6 +4158,8 @@
         isOwner: true,
         isDemo: false
       };
+      const { data, error } = await supabase.from('shops').insert([newShop]);
+
 
       state.shops.unshift(newShop);
       state.activeSellerShopId = newShop.id;
