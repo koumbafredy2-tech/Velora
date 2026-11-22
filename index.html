@@ -283,17 +283,17 @@
           headers: sbHeaders({ 'Prefer': 'resolution=merge-duplicates,return=minimal' }),
           body: JSON.stringify({
             id: shop.id,
-            nom: shop.name,
+            name: shop.name,
             slug: shop.slug,
-            pays: shop.country,
-            ville: shop.city,
-            quartier: shop.district,
+            country: shop.country,
+            city: shop.city,
+            district: shop.district,
             whatsapp: shop.whatsapp,
             devise: shop.currency,
             theme_id: shop.themeId,
             couleur_principale: shop.primaryColor,
             couleur_accent: shop.accentColor,
-            certifiee: !!shop.verified,
+            is_verified: !!shop.verified,
             preinscription_certification: !!shop.certPreRegistered
           })
         });
