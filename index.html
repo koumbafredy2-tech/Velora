@@ -275,32 +275,25 @@
     /**
      * Synchronise une boutique réelle vers la table Supabase `boutiques`.
      */
-    async function sbSyncShop(shop) {
-      if (!shop || shop.isDemo) return;
-      try {
-        await fetch(`${SUPABASE_URL}/rest/v1/shops`, {
-          method: 'POST',
-          headers: sbHeaders({ 'Prefer': 'resolution=merge-duplicates,return=minimal' }),
-          body: JSON.stringify({
-            id: shop.id,
-            name: shop.name,
-            slug: shop.slug,
-            country: shop.country,
-            city: shop.city,
-            district: shop.district,
-            whatsapp: shop.whatsapp,
-            devise: shop.currency,
-            theme_id: shop.themeId,
-            couleur_principale: shop.primaryColor,
-            couleur_accent: shop.accentColor,
-            is_verified: !!shop.verified,
-            preinscription_certification: !!shop.certPreRegistered
-          })
-        });
-      } catch (e) {
-        // Silencieux : localStorage reste la source immédiate
-      }
-    }
+   async function sbSyncShop(shop) {
+  if (!shop || shop.isDemo) return;
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/shops`, {
+      method: 'POST',
+      headers: sbHeaders({ 'Prefer': 'resolution=merge-duplicates,return=minimal' }),
+      body: JSON.stringify({
+        id: shop.id,
+        name: shop.name,
+        city: shop.city,
+        district: shop.district,
+        whatsapp: shop.whatsapp
+      })
+    });
+  } catch (e) {
+    // Silencieux : localStorage reste la source immédiate
+  }
+}
+      
 
     /**
      * Synchronise un article réel vers la table Supabase `articles`.
