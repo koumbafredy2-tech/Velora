@@ -341,7 +341,7 @@
     async function sbHydrateFromRemote() {
       try {
         const [shopsRes, prodsRes] = await Promise.all([
-          fetch(`${SUPABASE_URL}/rest/v1/shops?select=*`, { headers: sbHeaders() }),
+          fetch(`${SUPABASE_URL}/rest/v1/shops?select=*&actif=eq.true`, { headers: sbHeaders() }),
           fetch(`${SUPABASE_URL}/rest/v1/articles?select=*`, { headers: sbHeaders() })
         ]);
 
@@ -399,7 +399,7 @@
         }
 
         if (prodsRes && prodsRes.ok) {
-          const remoteProds = await prodsRes.json();
+         const remoteProds = (await prodsRes.json()).filter(r => state.shops.some(sh => String(sh.id) === String(r.boutique_id)));
           if (Array.isArray(remoteProds)) {
   const remoteIds = new Set(remoteProds.map(r => String(r.id)));
   const before = state.products.length;
