@@ -351,7 +351,7 @@
           const remoteShops = await shopsRes.json();
           if (Array.isArray(remoteShops) && remoteShops.length > 0) {
             remoteShops.forEach(row => {
-              if (!row || !row.id || !row.neme) return;
+              if (!row || !row.id || !row.name) return;
               const existing = state.shops.find(s => s.id === row.id);
               const matchedReg = REGIONS.find(r =>
                 r.country.toLowerCase() === String(row.pays || '').toLowerCase() ||
