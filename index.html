@@ -349,7 +349,11 @@
 
         if (shopsRes && shopsRes.ok) {
           const remoteShops = await shopsRes.json();
-          if (Array.isArray(remoteShops) && remoteShops.length > 0) {
+          if (Array.isArray(remoteShops)) {
+  const remoteShopIds = new Set(remoteShops.map(r => String(r.id)));
+  const beforeShops = state.shops.length;
+  state.shops = state.shops.filter(s => s.isDemo || remoteShopIds.has(String(s.id)));
+  if (state.shops.length !== beforeShops) changed = true;
             remoteShops.forEach(row => {
               if (!row || !row.id || !row.name) return;
               const existing = state.shops.find(s => s.id === row.id);
