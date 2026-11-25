@@ -341,7 +341,7 @@
     async function sbHydrateFromRemote() {
       try {
         const [shopsRes, prodsRes] = await Promise.all([
-          fetch(`${SUPABASE_URL}/rest/v1/boutiques?select=*`, { headers: sbHeaders() }),
+          fetch(`${SUPABASE_URL}/rest/v1/shops?select=*`, { headers: sbHeaders() }),
           fetch(`${SUPABASE_URL}/rest/v1/articles?select=*`, { headers: sbHeaders() })
         ]);
 
