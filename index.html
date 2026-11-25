@@ -396,7 +396,14 @@
 
         if (prodsRes && prodsRes.ok) {
           const remoteProds = await prodsRes.json();
-          if (Array.isArray(remoteProds) && remoteProds.length > 0) {
+          if (Array.isArray(remoteProds)) {
+  const remoteIds = new Set(remoteProds.map(r => String(r.id)));
+  const before = state.products.length;
+  state.products = state.products.filter(p => {
+    const s = state.shops.find(sh => String(sh.id) === String(p.shopId));
+    return (s && s.isDemo) || remoteIds.has(String(p.id));
+  });
+  if (state.products.length !== before) changed = true;
             remoteProds.forEach(row => {
               if (!row || !row.id || !row.boutique_id || !row.titre) return;
               const existing = state.products.find(p => p.id === row.id);
