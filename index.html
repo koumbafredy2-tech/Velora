@@ -382,7 +382,8 @@
                 avatar: existing ? existing.avatar : '',
                 tagline: `${row.district || ''} · ${row.city || matchedReg.city}`.replace(/^ · /, ''),
                 coords: existing ? existing.coords : { lat: matchedReg.lat, lng: matchedReg.lng },
-                verified: !!row.certifiee,
+                verified: !!row.is_verified || !!row.certifiee || row.plan === 'pro' || row.plan === 'vip',
+      plan: row.plan || 'free',
                 certPreRegistered: !!row.preinscription_certification,
                 isOwner: existing ? !!existing.isOwner : false,
                 isDemo: false
