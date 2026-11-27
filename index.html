@@ -3932,21 +3932,34 @@
       openModal('confirmModal');
     }
 
-    function handleUpgradeFromLimit(shopId) {
-      closeModal('confirmModal');
-      const shop = state.shops.find(s => s.id === shopId);
-      if (shop && !shop.certPreRegistered) {
-        shop.certPreRegistered = true;
-        saveState();
-        sbSyncShop(shop);
-        showToast(t('certSavedToast'));
-        renderAll();
-      }
-      setTimeout(() => {
-        const el = document.getElementById('certSectionDash');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 80);
+    async function handleUpgradeFromLimit(shopId) {
+  closeModal('confirmModal');
+  showToast('Redirection vers SingPay en cours...');
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/create-singpay-payment`, {
+      method: 'POST',
+      headers: sbHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({
+        shop_id: shopId,
+        amount: 5000 // Remplace par le prix exact de ton Pack Pro en FCFA
+      })
+    });
+
+    const data = await res.json();
+    const paymentUrl = data?.link || data?.payment_url || data?.url;
+
+    if (res.ok && paymentUrl) {
+      window.location.href = paymentUrl;
+    } else {
+      console.error('Erreur SingPay :', data);
+      showToast('Impossible de lancer le paiement pour le moment.');
     }
+  } catch (err) {
+    console.error('Erreur réseau SingPay :', err);
+    showToast('Erreur de connexion au service de paiement.');
+  }
+}
 
     function openPublishModal(shopId) {
       const shop = state.shops.find(s => s.id === shopId);
