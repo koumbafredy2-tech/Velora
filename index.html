@@ -3942,12 +3942,12 @@
       headers: sbHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         shop_id: shopId,
-        amount: 5000 // Remplace par le prix exact de ton Pack Pro en FCFA
+        plan: 'pro'
       })
     });
 
     const data = await res.json();
-    const paymentUrl = data?.link || data?.payment_url || data?.url;
+    const paymentUrl = data?.singpay?.link || data?.singpay?.payment_url || data?.singpay?.url || data?.link;
 
     if (res.ok && paymentUrl) {
       window.location.href = paymentUrl;
